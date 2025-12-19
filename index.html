@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cargos Planta • Gobernación del Huila</title>
+  <title>Planta Docente • Huila • Secretaría de Educación</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
@@ -355,7 +355,7 @@
   </div>
 
     <footer class="bg-white border-t border-slate-200 px-8 py-3 text-[9px] font-black uppercase text-slate-400 tracking-[0.2em] flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-    <span>© 2025 INFIHUILA - Instituto de Financiamiento Para el Desarrollo del Huila</span>
+    <span>© 2025 INFIHUILA - Instituto de Financiamiento, Promoción y Desarrollo del Huila</span>
     <span class="md:text-right">Documento controlado. Cualquier impresión es copia no controlada.</span>
   </footer>
 
@@ -728,7 +728,7 @@ function buildOrUpdateCharts() {
 
   // PIE Roles (según selección/filtro)
   const pieLabels = ["Rector", "Director Rural", "Coordinador", "Orientador", "Docente Aula", "Docente Apoyo", "Otros"];
-  const pieData = [totals.rector, totals.dirRural, totals.coord, totals.orien, totals.aula, totals.apoyo];
+  const pieData = [totals.rector, totals.dirRural, totals.coord, totals.orien, totals.aula, totals.apoyo, totals.otros];
 
   if (elChartPie) {
     if (chartPie) chartPie.destroy();
@@ -751,10 +751,29 @@ function buildOrUpdateCharts() {
     });
   }
 
-  // BAR Top N (sobre baseRows, no sobre selección exacta)
+  // BAR Top N
+  // Si hay municipio seleccionado: Top ENTIDADES dentro del municipio.
+  // Si NO hay municipio seleccionado: Top MUNICIPIOS (agregado) en todo el departamento.
   const topN = Number(elSelTopN?.value || 10);
-  const sorted = baseRows.slice().sort((a,b) => norm(b.total) - norm(a.total)).slice(0, topN);
-  const barLabels = sorted.map(r => r.municipio);
+
+  const srcRows = (municipioActivo ? selRows : baseRows);
+
+  // Agrupar
+  const groupKey = (municipioActivo ? "entidad" : "municipio");
+  const agg = new Map();
+  for (const r of (srcRows || [])) {
+    const k = String(r[groupKey] || "").trim() || (groupKey === "entidad" ? "Sin entidad" : "Sin municipio");
+    const prev = agg.get(k) || 0;
+    agg.set(k, prev + norm(r.total));
+  }
+  const grouped = Array.from(agg.entries()).map(([k,total]) => ({ key: k, total }));
+
+  const sorted = grouped
+    .slice()
+    .sort((a,b) => norm(b.total) - norm(a.total))
+    .slice(0, topN);
+
+  const barLabels = sorted.map(r => r.key);
   const barData = sorted.map(r => norm(r.total));
 
   if (elChartBar) {
@@ -782,11 +801,14 @@ function buildOrUpdateCharts() {
         onClick: (evt, elements) => {
           if (!elements || elements.length === 0) return;
           const idx = elements[0].index;
-          const muni = barLabels[idx];
-          if (muni) {
-            municipioActivo = muni;
-            elTxtBuscar.value = muni;
-            term = muni;
+          const label = barLabels[idx];
+
+          // Solo permitir "clic para seleccionar municipio" cuando el gráfico esté en modo MUNICIPIOS.
+          // Cuando hay municipioActivo, el gráfico está en modo ENTIDADES (dentro del municipio) y no debe cambiar el filtro.
+          if (!municipioActivo && label) {
+            municipioActivo = label;
+            elTxtBuscar.value = label;
+            term = label;
             renderAll();
             elMapFrame.scrollIntoView({ behavior: "smooth", block: "start" });
           }
