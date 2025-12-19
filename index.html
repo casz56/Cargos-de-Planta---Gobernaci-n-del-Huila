@@ -50,7 +50,7 @@
 
     <div class="flex items-center gap-3 w-full md:w-auto">
       <button id="btnVerHuila"
-              class="hidden md:flex items-center gap-2 px-4 py-2 bg-[#004651] hover:bg-[#006C72] rounded-lg text-xs font-normal uppercase transition-all border border-[#006C72] shadow-inner">
+              class="hidden md:flex items-center gap-2 px-4 py-2 bg-[#CCD400] hover:bg-[#CCD400] rounded-lg text-xs font-black uppercase transition-all border border-[#006C72] shadow-inner">
         <!-- icon maximize -->
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -60,7 +60,8 @@
           <path d="M16 16v3a2 2 0 0 1-2 2h-3"/>
         </svg>
         Ver Huila Completo
-      </button>
+
+              </button>
 
       <div class="relative flex-1 md:w-96">
         <!-- icon search -->
@@ -171,7 +172,7 @@
             <p class="text-[11px] text-slate-500">Torta • Total (según filtro / selección)</p>
           </div>
           <div class="p-6">
-            <canvas id="chartPieRoles" height="260"></canvas>
+            <div class="relative h-[260px] md:h-[320px]"><canvas id="chartPieRoles"></canvas></div>
 
             
           </div>
@@ -194,7 +195,7 @@
   </div>
 
   <div class="p-6">
-    <canvas id="chartBarTop" height="260"></canvas>
+    <div class="relative h-[260px] md:h-[320px]"><canvas id="chartBarTop"></canvas></div>
     <p class="text-[10px] text-slate-400 mt-3">Tip: clic en una barra para seleccionar el municipio y filtrar todo el tablero.</p>
   </div>
 </div>
@@ -206,7 +207,7 @@
             <p class="text-[11px] text-slate-500">Línea • Totales ordenados (mayor → menor)</p>
           </div>
           <div class="p-6">
-            <canvas id="chartLineTrend" height="260"></canvas>
+            <div class="relative h-[260px] md:h-[320px]"><canvas id="chartLineTrend"></canvas></div>
             <p class="text-[10px] text-slate-400 mt-3">Representación visual de concentración (ranking por total).</p>
           </div>
         </div>
@@ -302,7 +303,7 @@
         <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-4">
           <div>
             <h2 class="text-lg font-normal text-slate-800 uppercase tracking-tight" title-strong">Distribución agrupada de planta docente</h2>
-            <p class="text-[11px] text-slate-500">Municipio • Rector • Director Rural • Coordinador • Orientador • Docente Aula • Docente Apoyo • Otros • Total</p>
+            <p class="text-[11px] text-slate-500">Municipio • Rector • Director Rural • Coordinador • Orientador • Docente Aula • Docente Apoyo • Total</p>
           </div>
           <div class="flex items-center gap-2">
             <button id="btnDescargarPDF"
@@ -321,14 +322,12 @@
             <thead>
               <tr class="bg-[#CCD400] text-slate-900">
                 <th class="px-4 py-3 text-left font-normal uppercase font-normal">Municipio</th>
-                <th class="px-4 py-3 text-left font-normal uppercase font-normal">Entidad</th>
                 <th class="px-4 py-3 text-right font-normal uppercase font-normal">Rector</th>
                 <th class="px-4 py-3 text-right font-normal uppercase font-normal">Director Rural</th>
                 <th class="px-4 py-3 text-right font-normal uppercase font-normal">Coordinador</th>
                 <th class="px-4 py-3 text-right font-normal uppercase font-normal">Orientador</th>
                 <th class="px-4 py-3 text-right font-normal uppercase font-normal">Docente Aula</th>
                 <th class="px-4 py-3 text-right font-normal uppercase font-normal">Docente Apoyo</th>
-                <th class="px-4 py-3 text-right font-normal uppercase font-normal">Otros</th>
                 <th class="px-4 py-3 text-right font-black uppercase font-normal">Total</th>
               </tr>
             </thead>
@@ -336,14 +335,12 @@
             <tfoot>
               <tr class="bg-slate-50 border-t border-slate-200">
                 <td class="px-4 py-3 font-black uppercase text-slate-600">Total</td>
-                <td class="px-4 py-3 font-black text-slate-600">—</td>
                 <td id="ftRector" class="px-4 py-3 text-right font-black text-slate-900">0</td>
                 <td id="ftDirRural" class="px-4 py-3 text-right font-black text-slate-900">0</td>
                 <td id="ftCoord" class="px-4 py-3 text-right font-black text-slate-900">0</td>
                 <td id="ftOrien" class="px-4 py-3 text-right font-black text-slate-900">0</td>
                 <td id="ftAula" class="px-4 py-3 text-right font-black text-slate-900">0</td>
                 <td id="ftApoyo" class="px-4 py-3 text-right font-black text-slate-900">0</td>
-                <td id="ftOtros" class="px-4 py-3 text-right font-black text-slate-900">0</td>
                 <td id="ftTotal" class="px-4 py-3 text-right font-black text-slate-900">0</td>
               </tr>
             </tfoot>
@@ -411,7 +408,7 @@
    - Mantiene mapa, buscador y selección encadenada
    ========================================================= */
 
-const DATA = [{"no": 1, "municipio": "Acevedo", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 9, "directorRural": 0, "coordinador": 11, "orientador": 3, "docenteAula": 314, "docenteApoyo": 0, "otros": 0, "total": 337}, {"no": 2, "municipio": "Agrado", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 3, "directorRural": 0, "coordinador": 3, "orientador": 1, "docenteAula": 92, "docenteApoyo": 0, "otros": 0, "total": 99}, {"no": 3, "municipio": "Aipe", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 4, "directorRural": 0, "coordinador": 5, "orientador": 1, "docenteAula": 153, "docenteApoyo": 0, "otros": 0, "total": 163}, {"no": 4, "municipio": "Algeciras", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 6, "directorRural": 0, "coordinador": 7, "orientador": 3, "docenteAula": 211, "docenteApoyo": 0, "otros": 0, "total": 227}, {"no": 5, "municipio": "Altamira", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 1, "directorRural": 0, "coordinador": 1, "orientador": 1, "docenteAula": 35, "docenteApoyo": 0, "otros": 0, "total": 38}, {"no": 6, "municipio": "Baraya", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 3, "directorRural": 1, "coordinador": 2, "orientador": 1, "docenteAula": 72, "docenteApoyo": 0, "otros": 0, "total": 79}, {"no": 7, "municipio": "Campoalegre", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 5, "directorRural": 0, "coordinador": 10, "orientador": 3, "docenteAula": 230, "docenteApoyo": 0, "otros": 0, "total": 248}, {"no": 8, "municipio": "Colombia", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 5, "directorRural": 0, "coordinador": 1, "orientador": 0, "docenteAula": 92, "docenteApoyo": 0, "otros": 0, "total": 98}, {"no": 9, "municipio": "Elías", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 1, "directorRural": 0, "coordinador": 2, "orientador": 1, "docenteAula": 37, "docenteApoyo": 0, "otros": 0, "total": 41}, {"no": 10, "municipio": "Garzón", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 13, "directorRural": 1, "coordinador": 24, "orientador": 8, "docenteAula": 578, "docenteApoyo": 0, "otros": 0, "total": 624}, {"no": 11, "municipio": "Gigante", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 7, "directorRural": 0, "coordinador": 13, "orientador": 4, "docenteAula": 272, "docenteApoyo": 0, "otros": 0, "total": 296}, {"no": 12, "municipio": "Guadalupe", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 3, "directorRural": 0, "coordinador": 8, "orientador": 3, "docenteAula": 164, "docenteApoyo": 0, "otros": 0, "total": 178}, {"no": 13, "municipio": "Hobo", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 1, "directorRural": 0, "coordinador": 3, "orientador": 1, "docenteAula": 61, "docenteApoyo": 0, "otros": 0, "total": 66}, {"no": 14, "municipio": "Íquira", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 4, "directorRural": 0, "coordinador": 3, "orientador": 1, "docenteAula": 112, "docenteApoyo": 0, "otros": 0, "total": 120}, {"no": 15, "municipio": "Isnos", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 7, "directorRural": 0, "coordinador": 9, "orientador": 2, "docenteAula": 225, "docenteApoyo": 0, "otros": 0, "total": 243}, {"no": 16, "municipio": "La Argentina", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 5, "directorRural": 1, "coordinador": 3, "orientador": 2, "docenteAula": 136, "docenteApoyo": 0, "otros": 0, "total": 147}, {"no": 17, "municipio": "La Plata", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 18, "directorRural": 0, "coordinador": 22, "orientador": 7, "docenteAula": 577, "docenteApoyo": 1, "otros": 0, "total": 625}, {"no": 18, "municipio": "Nátaga", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 4, "directorRural": 0, "coordinador": 2, "orientador": 1, "docenteAula": 71, "docenteApoyo": 0, "otros": 0, "total": 78}, {"no": 19, "municipio": "Oporapa", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 3, "directorRural": 0, "coordinador": 4, "orientador": 1, "docenteAula": 115, "docenteApoyo": 0, "otros": 0, "total": 123}, {"no": 20, "municipio": "Paicol", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 1, "directorRural": 0, "coordinador": 3, "orientador": 1, "docenteAula": 60, "docenteApoyo": 0, "otros": 0, "total": 65}, {"no": 21, "municipio": "Palermo", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 7, "directorRural": 0, "coordinador": 8, "orientador": 3, "docenteAula": 220, "docenteApoyo": 1, "otros": 0, "total": 239}, {"no": 22, "municipio": "Palestina", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 5, "directorRural": 0, "coordinador": 2, "orientador": 1, "docenteAula": 115, "docenteApoyo": 0, "otros": 0, "total": 123}, {"no": 23, "municipio": "Pital", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 5, "directorRural": 0, "coordinador": 4, "orientador": 1, "docenteAula": 132, "docenteApoyo": 0, "otros": 0, "total": 142}, {"no": 24, "municipio": "Rivera", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 4, "directorRural": 0, "coordinador": 7, "orientador": 2, "docenteAula": 185, "docenteApoyo": 0, "otros": 0, "total": 198}, {"no": 25, "municipio": "Saladoblanco", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 2, "directorRural": 0, "coordinador": 5, "orientador": 2, "docenteAula": 114, "docenteApoyo": 0, "otros": 0, "total": 123}, {"no": 26, "municipio": "San Agustín", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 9, "directorRural": 0, "coordinador": 10, "orientador": 2, "docenteAula": 283, "docenteApoyo": 0, "otros": 0, "total": 304}, {"no": 27, "municipio": "Santa María", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 4, "directorRural": 0, "coordinador": 3, "orientador": 1, "docenteAula": 103, "docenteApoyo": 0, "otros": 0, "total": 111}, {"no": 28, "municipio": "Suaza", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 7, "directorRural": 0, "coordinador": 5, "orientador": 2, "docenteAula": 199, "docenteApoyo": 0, "otros": 0, "total": 213}, {"no": 29, "municipio": "Tarqui", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 6, "directorRural": 0, "coordinador": 7, "orientador": 2, "docenteAula": 174, "docenteApoyo": 1, "otros": 0, "total": 190}, {"no": 30, "municipio": "Tello", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 4, "directorRural": 0, "coordinador": 4, "orientador": 2, "docenteAula": 122, "docenteApoyo": 0, "otros": 0, "total": 132}, {"no": 31, "municipio": "Teruel", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 3, "directorRural": 0, "coordinador": 2, "orientador": 1, "docenteAula": 68, "docenteApoyo": 0, "otros": 0, "total": 74}, {"no": 32, "municipio": "Tesalia", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 3, "directorRural": 0, "coordinador": 4, "orientador": 1, "docenteAula": 94, "docenteApoyo": 1, "otros": 0, "total": 103}, {"no": 33, "municipio": "Timaná", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 6, "directorRural": 0, "coordinador": 6, "orientador": 1, "docenteAula": 178, "docenteApoyo": 0, "otros": 0, "total": 191}, {"no": 34, "municipio": "Villavieja", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 3, "directorRural": 1, "coordinador": 1, "orientador": 0, "docenteAula": 63, "docenteApoyo": 0, "otros": 0, "total": 68}, {"no": 35, "municipio": "Yaguará", "entidad": "SECRETARÍA DE EDUCACIÓN DEL DEPARTAMENTO DEL HUILA", "rector": 1, "directorRural": 0, "coordinador": 3, "orientador": 1, "docenteAula": 55, "docenteApoyo": 0, "otros": 0, "total": 60}, {"no": 0, "municipio": "Neiva", "entidad": "GOBERNACIÓN DEL HUILA", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "otros": 251, "total": 251}, {"no": 0, "municipio": "Neiva", "entidad": "ESE HOSPITAL UNIVERSITARIO HERNANDO MONCALEANO PERDOMO DE NEIVA", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "otros": 551, "total": 551}, {"no": 0, "municipio": "Pitalito", "entidad": "ESE HOSPITAL SAN ANTONIO DE PITALITO", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "otros": 91, "total": 91}, {"no": 0, "municipio": "La Plata", "entidad": "ESE HOSPITAL SAN ANTONIO DE PADUA", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "otros": 37, "total": 37}, {"no": 0, "municipio": "Garzón", "entidad": "ESE HOSPITAL SAN VICENTE DE PAUL", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "otros": 89, "total": 89}, {"no": 0, "municipio": "Neiva", "entidad": "INDERHUILA", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "otros": 4, "total": 4}, {"no": 0, "municipio": "Neiva", "entidad": "AGUAS DEL HUILA", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "otros": 37, "total": 37}, {"no": 0, "municipio": "Neiva", "entidad": "LOTERÍA DEL HUILA", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "otros": 10, "total": 10}, {"no": 0, "municipio": "Neiva", "entidad": "INFIHUILA", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "otros": 19, "total": 19}];
+const DATA = [{"no": 1, "municipio": "Acevedo", "rector": 9, "directorRural": 0, "coordinador": 11, "orientador": 3, "docenteAula": 314, "docenteApoyo": 0, "total": 337}, {"no": 2, "municipio": "Agrado", "rector": 3, "directorRural": 0, "coordinador": 3, "orientador": 1, "docenteAula": 92, "docenteApoyo": 0, "total": 99}, {"no": 3, "municipio": "Aipe", "rector": 4, "directorRural": 0, "coordinador": 5, "orientador": 1, "docenteAula": 153, "docenteApoyo": 0, "total": 163}, {"no": 4, "municipio": "Algeciras", "rector": 6, "directorRural": 0, "coordinador": 7, "orientador": 3, "docenteAula": 211, "docenteApoyo": 0, "total": 227}, {"no": 5, "municipio": "Altamira", "rector": 1, "directorRural": 0, "coordinador": 1, "orientador": 1, "docenteAula": 35, "docenteApoyo": 0, "total": 38}, {"no": 6, "municipio": "Baraya", "rector": 3, "directorRural": 1, "coordinador": 2, "orientador": 1, "docenteAula": 72, "docenteApoyo": 0, "total": 79}, {"no": 7, "municipio": "Campoalegre", "rector": 5, "directorRural": 0, "coordinador": 10, "orientador": 3, "docenteAula": 230, "docenteApoyo": 0, "total": 248}, {"no": 8, "municipio": "Colombia", "rector": 5, "directorRural": 0, "coordinador": 1, "orientador": 0, "docenteAula": 92, "docenteApoyo": 0, "total": 98}, {"no": 9, "municipio": "Elías", "rector": 1, "directorRural": 0, "coordinador": 2, "orientador": 1, "docenteAula": 37, "docenteApoyo": 0, "total": 41}, {"no": 10, "municipio": "Garzón", "rector": 13, "directorRural": 1, "coordinador": 24, "orientador": 8, "docenteAula": 578, "docenteApoyo": 0, "total": 624}, {"no": 11, "municipio": "Gigante", "rector": 7, "directorRural": 0, "coordinador": 13, "orientador": 4, "docenteAula": 272, "docenteApoyo": 0, "total": 296}, {"no": 12, "municipio": "Guadalupe", "rector": 3, "directorRural": 0, "coordinador": 8, "orientador": 3, "docenteAula": 164, "docenteApoyo": 0, "total": 178}, {"no": 13, "municipio": "Hobo", "rector": 1, "directorRural": 0, "coordinador": 3, "orientador": 1, "docenteAula": 61, "docenteApoyo": 0, "total": 66}, {"no": 14, "municipio": "Íquira", "rector": 4, "directorRural": 0, "coordinador": 3, "orientador": 1, "docenteAula": 112, "docenteApoyo": 0, "total": 120}, {"no": 15, "municipio": "Isnos", "rector": 7, "directorRural": 0, "coordinador": 9, "orientador": 2, "docenteAula": 225, "docenteApoyo": 0, "total": 243}, {"no": 16, "municipio": "La Argentina", "rector": 5, "directorRural": 1, "coordinador": 3, "orientador": 2, "docenteAula": 136, "docenteApoyo": 0, "total": 147}, {"no": 17, "municipio": "La Plata", "rector": 18, "directorRural": 0, "coordinador": 22, "orientador": 7, "docenteAula": 577, "docenteApoyo": 1, "total": 625}, {"no": 18, "municipio": "Nátaga", "rector": 4, "directorRural": 0, "coordinador": 2, "orientador": 1, "docenteAula": 71, "docenteApoyo": 0, "total": 78}, {"no": 19, "municipio": "Oporapa", "rector": 3, "directorRural": 0, "coordinador": 4, "orientador": 1, "docenteAula": 115, "docenteApoyo": 0, "total": 123}, {"no": 20, "municipio": "Paicol", "rector": 1, "directorRural": 0, "coordinador": 3, "orientador": 1, "docenteAula": 60, "docenteApoyo": 0, "total": 65}, {"no": 21, "municipio": "Palermo", "rector": 7, "directorRural": 0, "coordinador": 8, "orientador": 3, "docenteAula": 220, "docenteApoyo": 1, "total": 239}, {"no": 22, "municipio": "Palestina", "rector": 5, "directorRural": 0, "coordinador": 2, "orientador": 1, "docenteAula": 115, "docenteApoyo": 0, "total": 123}, {"no": 23, "municipio": "Pital", "rector": 5, "directorRural": 0, "coordinador": 4, "orientador": 1, "docenteAula": 132, "docenteApoyo": 0, "total": 142}, {"no": 24, "municipio": "Rivera", "rector": 4, "directorRural": 0, "coordinador": 7, "orientador": 2, "docenteAula": 185, "docenteApoyo": 0, "total": 198}, {"no": 25, "municipio": "Saladoblanco", "rector": 2, "directorRural": 0, "coordinador": 5, "orientador": 2, "docenteAula": 114, "docenteApoyo": 0, "total": 123}, {"no": 26, "municipio": "San Agustín", "rector": 9, "directorRural": 0, "coordinador": 10, "orientador": 2, "docenteAula": 283, "docenteApoyo": 0, "total": 304}, {"no": 27, "municipio": "Santa María", "rector": 4, "directorRural": 0, "coordinador": 3, "orientador": 1, "docenteAula": 103, "docenteApoyo": 0, "total": 111}, {"no": 28, "municipio": "Suaza", "rector": 7, "directorRural": 0, "coordinador": 5, "orientador": 2, "docenteAula": 199, "docenteApoyo": 0, "total": 213}, {"no": 29, "municipio": "Tarqui", "rector": 6, "directorRural": 0, "coordinador": 7, "orientador": 2, "docenteAula": 174, "docenteApoyo": 1, "total": 190}, {"no": 30, "municipio": "Tello", "rector": 4, "directorRural": 0, "coordinador": 4, "orientador": 2, "docenteAula": 122, "docenteApoyo": 0, "total": 132}, {"no": 31, "municipio": "Teruel", "rector": 3, "directorRural": 0, "coordinador": 2, "orientador": 1, "docenteAula": 68, "docenteApoyo": 0, "total": 74}, {"no": 32, "municipio": "Tesalia", "rector": 3, "directorRural": 0, "coordinador": 4, "orientador": 1, "docenteAula": 94, "docenteApoyo": 1, "total": 103}, {"no": 33, "municipio": "Timaná", "rector": 6, "directorRural": 0, "coordinador": 6, "orientador": 1, "docenteAula": 178, "docenteApoyo": 0, "total": 191}, {"no": 34, "municipio": "Villavieja", "rector": 3, "directorRural": 1, "coordinador": 1, "orientador": 0, "docenteAula": 63, "docenteApoyo": 0, "total": 68}, {"no": 35, "municipio": "Yaguará", "rector": 1, "directorRural": 0, "coordinador": 3, "orientador": 1, "docenteAula": 55, "docenteApoyo": 0, "total": 60}, {"no": null, "municipio": "Neiva", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "total": 251}, {"no": null, "municipio": "Neiva", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "total": 551}, {"no": null, "municipio": "Pitalito", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "total": 91}, {"no": null, "municipio": "La Plata", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "total": 37}, {"no": null, "municipio": "Garzón", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "total": 89}, {"no": null, "municipio": "Neiva", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "total": 4}, {"no": null, "municipio": "Neiva", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "total": 37}, {"no": null, "municipio": "Neiva", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "total": 10}, {"no": null, "municipio": "Neiva", "rector": 0, "directorRural": 0, "coordinador": 0, "orientador": 0, "docenteAula": 0, "docenteApoyo": 0, "total": 19}];
 
 let term = "";
 let municipioActivo = null; // string
@@ -420,6 +417,7 @@ const elLista = document.getElementById("listaMunicipios");
 const elTxtBuscar = document.getElementById("txtBuscar");
 const elDlBuscar = document.getElementById("dlBuscar");
 const elBtnVerHuila = document.getElementById("btnVerHuila");
+const elBtnResetHuila = document.getElementById("btnResetHuila");
 
 const elMapFrame = document.getElementById("mapFrame");
 const elMapTitle = document.getElementById("mapTitle");
@@ -464,7 +462,6 @@ const ft = {
   orien: document.getElementById("ftOrien"),
   aula: document.getElementById("ftAula"),
   apoyo: document.getElementById("ftApoyo"),
-  otros: document.getElementById("ftOtros"),
   total: document.getElementById("ftTotal"),
 };
 
@@ -577,7 +574,8 @@ function renderDetail(rows) {
     return;
   }
 
-  if (!rows || !rows.length) {
+  const r = rows[0];
+  if (!r) {
     elDetalle.innerHTML = `
       <div class="text-center py-10 text-slate-500">
         <p class="font-normal text-slate-800 uppercase">Sin resultados</p>
@@ -587,22 +585,15 @@ function renderDetail(rows) {
     return;
   }
 
-  // Consolidado por municipio (puede venir con múltiples entidades)
-  const s = sumRows(rows);
-  const mun = rows[0].municipio || municipioActivo;
-  const entidades = unique(rows.map(r => String(r.entidad || "").trim()).filter(Boolean));
-  const entidadTxt = entidades.length === 0 ? "" : (entidades.length === 1 ? entidades[0] : `${entidades.length} entidades`);
-
   elDetalle.innerHTML = `
     <div class="flex flex-col md:flex-row items-start justify-between gap-6">
       <div class="flex-1 min-w-0">
         <p class="text-[10px] font-normal text-slate-400 uppercase tracking-widest" title-strong">Municipio seleccionado</p>
-        <h3 class="text-2xl md:text-3xl font-normal text-slate-900 tracking-tight">${escapeHtml(mun)}</h3>
+        <h3 class="text-2xl md:text-3xl font-normal text-slate-900 tracking-tight">${escapeHtml(r.municipio)}</h3>
 
         <div class="flex flex-wrap gap-2 mt-3">
-          <span class="px-3 py-1 bg-emerald-100 text-[#006C72] text-[10px] font-normal rounded-full uppercase">Cargos</span>
-          <span class="px-3 py-1 bg-[#f5f5f5] text-slate-700 text-[10px] font-normal rounded-full uppercase">Total: ${Number(s.total).toLocaleString("es-CO")}</span>
-          ${entidadTxt ? `<span class="px-3 py-1 bg-[#f5f5f5] text-slate-700 text-[10px] font-normal rounded-full uppercase">Entidad: ${escapeHtml(entidadTxt)}</span>` : ``}
+          <span class="px-3 py-1 bg-emerald-100 text-[#006C72] text-[10px] font-normal rounded-full uppercase">Docentes</span>
+          <span class="px-3 py-1 bg-[#f5f5f5] text-slate-700 text-[10px] font-normal rounded-full uppercase">Total: ${norm(r.total).toLocaleString("es-CO")}</span>
         </div>
       </div>
 
@@ -610,13 +601,12 @@ function renderDetail(rows) {
         <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
           <p class="text-[10px] font-normal text-slate-400 uppercase tracking-widest" title-strong">Detalle por rol</p>
           <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">
-            <div class="bg-white p-3 rounded-xl border border-slate-200"><p class="text-[10px] font-normal uppercase text-slate-500">Rector</p><p class="text-lg font-normal">${Number(s.rector).toLocaleString("es-CO")}</p></div>
-            <div class="bg-white p-3 rounded-xl border border-slate-200"><p class="text-[10px] font-normal uppercase text-slate-500">Director Rural</p><p class="text-lg font-normal">${Number(s.dirRural).toLocaleString("es-CO")}</p></div>
-            <div class="bg-white p-3 rounded-xl border border-slate-200"><p class="text-[10px] font-normal uppercase text-slate-500">Coordinador</p><p class="text-lg font-normal">${Number(s.coord).toLocaleString("es-CO")}</p></div>
-            <div class="bg-white p-3 rounded-xl border border-slate-200"><p class="text-[10px] font-normal uppercase text-slate-500">Orientador</p><p class="text-lg font-normal">${Number(s.orien).toLocaleString("es-CO")}</p></div>
-            <div class="bg-white p-3 rounded-xl border border-slate-200"><p class="text-[10px] font-normal uppercase text-slate-500">Docente Aula</p><p class="text-lg font-normal">${Number(s.aula).toLocaleString("es-CO")}</p></div>
-            <div class="bg-white p-3 rounded-xl border border-slate-200"><p class="text-[10px] font-normal uppercase text-slate-500">Docente Apoyo</p><p class="text-lg font-normal">${Number(s.apoyo).toLocaleString("es-CO")}</p></div>
-            <div class="bg-white p-3 rounded-xl border border-slate-200 md:col-span-3"><p class="text-[10px] font-normal uppercase text-slate-500">Otros</p><p class="text-lg font-normal">${Number(s.otros).toLocaleString("es-CO")}</p></div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200"><p class="text-[10px] font-normal uppercase text-slate-500">Rector</p><p class="text-lg font-normal">${norm(r.rector).toLocaleString("es-CO")}</p></div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200"><p class="text-[10px] font-normal uppercase text-slate-500">Director Rural</p><p class="text-lg font-normal">${norm(r.directorRural).toLocaleString("es-CO")}</p></div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200"><p class="text-[10px] font-normal uppercase text-slate-500">Coordinador</p><p class="text-lg font-normal">${norm(r.coordinador).toLocaleString("es-CO")}</p></div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200"><p class="text-[10px] font-normal uppercase text-slate-500">Orientador</p><p class="text-lg font-normal">${norm(r.orientador).toLocaleString("es-CO")}</p></div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200"><p class="text-[10px] font-normal uppercase text-slate-500">Docente Aula</p><p class="text-lg font-normal">${norm(r.docenteAula).toLocaleString("es-CO")}</p></div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200"><p class="text-[10px] font-normal uppercase text-slate-500">Docente Apoyo</p><p class="text-lg font-normal">${norm(r.docenteApoyo).toLocaleString("es-CO")}</p></div>
           </div>
         </div>
       </div>
@@ -628,14 +618,12 @@ function renderTable(rows) {
   elTbody.innerHTML = rows.map(r => `
     <tr class="hover:bg-[#CCD400]/10 cursor-pointer" data-m="${escapeHtml(r.municipio)}">
       <td class="px-4 py-3 font-normal text-slate-800">${escapeHtml(r.municipio)}</td>
-      <td class="px-4 py-3 font-normal text-slate-700">${escapeHtml(r.entidad||"")}</td>
       <td class="px-4 py-3 text-right font-normal text-slate-900">${norm(r.rector).toLocaleString("es-CO")}</td>
       <td class="px-4 py-3 text-right font-normal text-slate-900">${norm(r.directorRural).toLocaleString("es-CO")}</td>
       <td class="px-4 py-3 text-right font-normal text-slate-900">${norm(r.coordinador).toLocaleString("es-CO")}</td>
       <td class="px-4 py-3 text-right font-normal text-slate-900">${norm(r.orientador).toLocaleString("es-CO")}</td>
       <td class="px-4 py-3 text-right font-normal text-slate-900">${norm(r.docenteAula).toLocaleString("es-CO")}</td>
       <td class="px-4 py-3 text-right font-normal text-slate-900">${norm(r.docenteApoyo).toLocaleString("es-CO")}</td>
-      <td class="px-4 py-3 text-right font-normal text-slate-900">${norm(r.otros).toLocaleString("es-CO")}</td>
       <td class="px-4 py-3 text-right font-normal text-slate-900">${norm(r.total).toLocaleString("es-CO")}</td>
     </tr>
   `).join("");
@@ -657,7 +645,6 @@ function renderTable(rows) {
   ft.orien.textContent = s.orien.toLocaleString("es-CO");
   ft.aula.textContent = s.aula.toLocaleString("es-CO");
   ft.apoyo.textContent = s.apoyo.toLocaleString("es-CO");
-  if (ft.otros) ft.otros.textContent = s.otros.toLocaleString("es-CO");
   ft.total.textContent = s.total.toLocaleString("es-CO");
 }
 
@@ -715,8 +702,7 @@ function buildOrUpdateCharts() {
   INF_COLORS.dark,      // Coordinador
   "#4AABC2",            // Orientador (teal diferente, complementa INFIHUILA)
   "#FFC000",            // Docente Aula (gris oscuro para diferenciar)
-  "#94a3b8",            // Docente Apoyo (gris claro)
-  "#002060"             // Otros (Azul Oscuro)
+  "#94a3b8"             // Docente Apoyo (gris claro)
 ];
 
   
@@ -739,6 +725,9 @@ function buildOrUpdateCharts() {
         datasets: [{ data: pieData, backgroundColor: pieColors, borderColor: "#ffffff", borderWidth: 2 }]},
       options: {
         responsive: true,
+        maintainAspectRatio: false,
+        resizeDelay: 200,
+        layout: { padding: 10 },
         plugins: {
           legend: { position: "bottom" },
           tooltip: {
@@ -751,30 +740,32 @@ function buildOrUpdateCharts() {
     });
   }
 
-  // BAR Top N
-  // Si hay municipio seleccionado: Top ENTIDADES dentro del municipio.
-  // Si NO hay municipio seleccionado: Top MUNICIPIOS (agregado) en todo el departamento.
+  // BAR Top N (sobre baseRows, no sobre selección exacta)
   const topN = Number(elSelTopN?.value || 10);
 
-  const srcRows = (municipioActivo ? selRows : baseRows);
+  // Si hay municipio activo: Top ENTIDADES dentro del municipio
+  // Si NO hay municipio activo: Top MUNICIPIOS (Huila completo)
+  let topItems = [];
+  if (municipioActivo) {
+    const byEntidad = new Map();
+    baseRows.forEach(r => {
+      const key = String(r.entidad || "Sin entidad").trim() || "Sin entidad";
+      byEntidad.set(key, (byEntidad.get(key) || 0) + norm(r.total));
+    });
+    topItems = Array.from(byEntidad.entries())
+      .map(([entidad, total]) => ({ entidad, total }))
+      .sort((a,b) => norm(b.total) - norm(a.total))
+      .slice(0, topN);
 
-  // Agrupar
-  const groupKey = (municipioActivo ? "entidad" : "municipio");
-  const agg = new Map();
-  for (const r of (srcRows || [])) {
-    const k = String(r[groupKey] || "").trim() || (groupKey === "entidad" ? "Sin entidad" : "Sin municipio");
-    const prev = agg.get(k) || 0;
-    agg.set(k, prev + norm(r.total));
+  } else {
+    topItems = baseRows.slice()
+      .sort((a,b) => norm(b.total) - norm(a.total))
+      .slice(0, topN)
+      .map(r => ({ municipio: r.municipio, total: norm(r.total) }));
   }
-  const grouped = Array.from(agg.entries()).map(([k,total]) => ({ key: k, total }));
 
-  const sorted = grouped
-    .slice()
-    .sort((a,b) => norm(b.total) - norm(a.total))
-    .slice(0, topN);
-
-  const barLabels = sorted.map(r => r.key);
-  const barData = sorted.map(r => norm(r.total));
+  const barLabels = topItems.map(r => municipioActivo ? r.entidad : r.municipio);
+  const barData = topItems.map(r => norm(r.total));
 
   if (elChartBar) {
     if (chartBar) chartBar.destroy();
@@ -786,6 +777,9 @@ function buildOrUpdateCharts() {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
+        resizeDelay: 200,
+        layout: { padding: 10 },
         plugins: {
           legend: { display: false },
           tooltip: {
@@ -800,18 +794,16 @@ function buildOrUpdateCharts() {
         },
         onClick: (evt, elements) => {
           if (!elements || elements.length === 0) return;
+          // Solo habilitar click-to-filter cuando estamos viendo Huila completo (Top municipios)
+          if (municipioActivo) return;
           const idx = elements[0].index;
-          const label = barLabels[idx];
-
-          // Solo permitir "clic para seleccionar municipio" cuando el gráfico esté en modo MUNICIPIOS.
-          // Cuando hay municipioActivo, el gráfico está en modo ENTIDADES (dentro del municipio) y no debe cambiar el filtro.
-          if (!municipioActivo && label) {
-            municipioActivo = label;
-            elTxtBuscar.value = label;
-            term = label;
-            renderAll();
-            elMapFrame.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
+          const muni = barLabels[idx];
+          if (!muni) return;
+          municipioActivo = muni;
+          elTxtBuscar.value = muni;
+          term = muni;
+          renderAll();
+          elMapFrame?.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }
     });
@@ -832,6 +824,9 @@ function buildOrUpdateCharts() {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
+        resizeDelay: 200,
+        layout: { padding: 10 },
         plugins: {
           legend: { display: false },
           tooltip: {
@@ -855,26 +850,7 @@ function buildOrUpdateCharts() {
 }
 
 
-
-function ensureTableHeader() {
-  const tr = document.querySelector("#tablaExport thead tr");
-  if (!tr) return;
-  tr.innerHTML = `
-    <th class="px-4 py-3 text-left font-normal uppercase font-normal">Municipio</th>
-    <th class="px-4 py-3 text-left font-normal uppercase font-normal">Entidad</th>
-    <th class="px-4 py-3 text-right font-normal uppercase font-normal">Rector</th>
-    <th class="px-4 py-3 text-right font-normal uppercase font-normal">Director Rural</th>
-    <th class="px-4 py-3 text-right font-normal uppercase font-normal">Coordinador</th>
-    <th class="px-4 py-3 text-right font-normal uppercase font-normal">Orientador</th>
-    <th class="px-4 py-3 text-right font-normal uppercase font-normal">Docente Aula</th>
-    <th class="px-4 py-3 text-right font-normal uppercase font-normal">Docente Apoyo</th>
-    <th class="px-4 py-3 text-right font-normal uppercase font-normal">Otros</th>
-    <th class="px-4 py-3 text-right font-black uppercase font-normal">Total</th>
-  `;
-}
-
 function renderAll() {
-  ensureTableHeader();
   buildSearchOptions();
   renderSidebar();
   const rows = filteredRows();
@@ -904,12 +880,16 @@ elTxtBuscar.addEventListener("change", () => {
   }
 });
 
-elBtnVerHuila.addEventListener("click", () => {
+function resetHuilaCompleto() {
   term = "";
   municipioActivo = null;
   elTxtBuscar.value = "";
   renderAll();
-});
+}
+
+elBtnVerHuila?.addEventListener("click", resetHuilaCompleto);
+elBtnResetHuila?.addEventListener("click", resetHuilaCompleto);
+
 
 // Top N (gráfico de barras)
 if (elSelTopN) {
@@ -1092,5 +1072,7 @@ renderAll();
     </div>
   </div>
 
+
+ 
 </body>
 </html>
